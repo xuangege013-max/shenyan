@@ -1,0 +1,8 @@
+{
+  "appId": "com.shenyan.app",
+  "appName": "沈砚",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "http"
+  }
+}
