@@ -1,0 +1,51 @@
+name: Build APK
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      - name: 安装 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: 安装 Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: 安装 Android SDK
+        uses: android-actions/setup-android@v3
+      - name: 安装依赖
+        run: |
+          cd mobile
+          npm install
+      - name: 生成 Android 工程
+        run: |
+          cd mobile
+          npx cap add android
+      - name: 复制原生插件（如存在）
+        run: |
+          if [ -d "mobile/native" ]; then
+            cp -f mobile/native/*.kt mobile/android/app/src/main/java/com/shenyan/app/ 2>/dev/null || true
+            cp -f mobile/native/MainActivity.java mobile/android/app/src/main/java/com/shenyan/app/ 2>/dev/null || true
+          fi
+      - name: 补丁 AndroidManifest（如存在脚本）
+        run: |
+          if [ -f "mobile/patch-android.js" ]; then node mobile/patch-android.js; fi
+      - name: 同步
+        run: |
+          cd mobile
+          npx cap sync android
+      - name: 构建 APK
+        run: |
+          cd mobile/android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - name: 上传 APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: shenyan-apk
+          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
