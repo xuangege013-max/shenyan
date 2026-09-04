@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0d1117">
+  <title>沈砚 · 学习监督官</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="avatar">沈</div>
+        <div class="profile-text">
+          <div class="name">沈砚</div>
+          <div class="subtitle">你的男友 · 学习监督官</div>
+        </div>
+        <span class="online-dot"></span>
+      </div>
+      <div class="stats-card">
+        <div class="stats-row">
+          <div class="stat"><div class="stat-num" id="stat-done">0/0</div><div class="stat-label">今日任务</div></div>
+          <div class="stat-divider"></div>
+          <div class="stat"><div class="stat-num" id="stat-streak">0</div><div class="stat-label">连续打卡</div></div>
+        </div>
+        <div class="mini-bar"><div id="stat-bar"></div></div>
+      </div>
+      <nav class="tabs">
+        <button class="tab-btn active" data-tab="chat"><span class="tab-ico">💬</span>聊天</button>
+        <button class="tab-btn" data-tab="plan"><span class="tab-ico">📋</span>学习计划</button>
+        <button class="tab-btn" data-tab="timer"><span class="tab-ico">⏱️</span>专注计时</button>
+        <button class="tab-btn" data-tab="memory"><span class="tab-ico">🧠</span>记忆</button>
+        <button class="tab-btn" data-tab="usage"><span class="tab-ico">📱</span>使用监控</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="signature">*天蝎的占有欲，藏在我每个眼神里*</div>
+      </div>
+    </aside>
+    <main>
+      <section id="tab-chat" class="panel active">
+        <div class="chat-head">
+          <div class="mode-switch">
+            <button id="mode-auto" class="mode-btn active">❤️ 恋人</button>
+            <button id="mode-study" class="mode-btn">📚 监督模式</button>
+          </div>
+          <div class="head-btns">
+            <button id="voice-out" class="icon-btn" title="语音播报">🔇</button>
+            <button id="settings-btn" class="icon-btn" title="服务器设置">⚙️</button>
+          </div>
+        </div>
+        <div id="chat-box" class="chat-box"></div>
+        <div class="chat-input">
+          <button id="mic" class="icon-btn" title="语音输入">🎤</button>
+          <input id="chat-input" type="text" placeholder="和沈砚说点什么…" autocomplete="off">
+          <button id="send" class="send-btn">发送 ➤</button>
+        </div>
+      </section>
+      <section id="tab-plan" class="panel">
+        <div class="panel-head">
+          <h2>📋 今日学习计划</h2>
+          <input id="plan-date" type="date">
+        </div>
+        <div class="plan-top">
+          <div class="ring-wrap">
+            <svg class="ring" viewBox="0 0 100 100">
+              <defs>
+                <linearGradient id="grad1" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#4c8dff"/><stop offset="100%" stop-color="#7c5cff"/>
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="50" cy="50" r="45"/>
+              <circle class="ring-fg" id="plan-ring" cx="50" cy="50" r="45"/>
+            </svg>
+            <div class="ring-center"><span id="ring-pct">0%</span></div>
+          </div>
+          <div class="plan-summary">
+            <div class="summary-line">今日已完成 <b id="plan-done-num">0</b> / <span id="plan-total-num">0</span> 项</div>
+            <div class="summary-sub">连续打卡 <b id="plan-streak">0</b> 天 · 别让沈砚失望</div>
+          </div>
+        </div>
+        <div class="plan-add">
+          <input id="plan-input" type="text" placeholder="添加任务，如：高数第三章习题">
+          <input id="plan-minutes" type="number" placeholder="分钟" min="0">
+          <button id="plan-add-btn" class="send-btn">＋ 添加</button>
+        </div>
+        <ul id="plan-list" class="plan-list"></ul>
+      </section>
+      <section id="tab-timer" class="panel">
+        <div class="timer-wrap">
+          <div class="timer-ring-wrap">
+            <svg class="ring big" viewBox="0 0 200 200">
+              <defs>
+                <linearGradient id="grad2" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#4c8dff"/><stop offset="100%" stop-color="#7c5cff"/>
+                </linearGradient>
+              </defs>
+              <circle class="ring-bg" cx="100" cy="100" r="90"/>
+              <circle class="ring-fg" id="timer-ring" cx="100" cy="100" r="90"/>
+            </svg>
+            <div class="timer-center">
+              <div id="timer-mode" class="timer-mode">专注</div>
+              <div id="timer-display" class="timer-display">25:00</div>
+            </div>
+          </div>
+          <div class="timer-btns">
+            <button id="timer-start" class="send-btn big-btn">▶ 开始</button>
+            <button id="timer-pause" class="ghost-btn">⏸ 暂停</button>
+            <button id="timer-reset" class="ghost-btn">↺ 重置</button>
+          </div>
+          <div class="timer-stats">今日已完成专注 <span id="focus-count">0</span> 次</div>
+        </div>
+      </section>
+      <section id="tab-memory" class="panel">
+        <div class="panel-head"><h2>🧠 长期记忆</h2></div>
+        <div class="plan-add">
+          <input id="memory-input" type="text" placeholder="记住一件事，如：我晚上效率更高">
+          <select id="memory-type"><option>偏好</option><option>学习</option><option>其他</option></select>
+          <button id="memory-add-btn" class="send-btn">＋ 记住</button>
+        </div>
+        <div id="memory-list" class="memory-grid"></div>
+      </section>
+      <section id="tab-usage" class="panel">
+        <div class="panel-head">
+          <h2>📱 应用使用监控</h2>
+          <button id="usage-refresh" class="ghost-btn">↺ 刷新</button>
+        </div>
+        <div id="usage-status" class="usage-status"></div>
+        <button id="usage-grant" class="send-btn" style="display:none;align-self:flex-start">🔓 去授权</button>
+        <ul id="usage-list" class="usage-list"></ul>
+      </section>
+    </main>
+  </div>
+  <div id="settings-modal" class="modal">
+    <div class="modal-box">
+      <h3>⚙️ 服务器地址</h3>
+      <p class="modal-hint">手机端请填电脑的局域网 IP，如 http://192.168.1.100:3000<br>（电脑和手机连同一个 WiFi）</p>
+      <input id="api-base-input" type="text" placeholder="http://192.168.x.x:3000">
+      <div class="modal-btns">
+        <button id="settings-cancel" class="ghost-btn">取消</button>
+        <button id="settings-save" class="send-btn">保存</button>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
